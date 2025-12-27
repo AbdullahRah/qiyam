@@ -29,6 +29,7 @@ import { formatTime, calculateQiyamWindow, formatDuration, getVirtue } from '@/l
 import { fetchAddressFromCoords } from '@/lib/aladhan'
 import { searchCities, type CityResult } from '@/lib/geocoding'
 import mixpanel from 'mixpanel-browser'
+import Image from 'next/image'
 
 type LocationMode = 'gps' | 'search'
 
@@ -207,11 +208,16 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center px-4 py-8 bg-gradient-to-b from-background to-muted/20">
-      {/* Header */}
       <header className="w-full max-w-md flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-          Qiyam
-        </h1>
+        <div className="relative w-28 h-10">
+          <Image
+            src="/logo.jpg"
+            alt="Qiyam Logo"
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
         <div className="flex items-center gap-1">
           <ThemeToggle />
           <SettingsDialog
@@ -450,7 +456,7 @@ export default function HomePage() {
           settings={settings}
         />
       </div>
-    </div>
+    </div >
   )
 }
 

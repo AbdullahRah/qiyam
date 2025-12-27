@@ -17,6 +17,15 @@ if (typeof window !== 'undefined') {
         api_host: "https://api-js.mixpanel.com",
     })
 
+    // Create a profile for this anonymous user so they appear in the Explore/Users tab
+    mixpanel.people.set({
+        'Last Seen': new Date().toISOString(),
+        'User Type': 'Anonymous visitor'
+    });
+
+    // Track the start of their visit explicitly
+    mixpanel.track('Session Start');
+
     if (process.env.NODE_ENV === 'development') {
         console.log('Mixpanel Initialized with token:', MIXPANEL_TOKEN);
     }

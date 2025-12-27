@@ -422,10 +422,10 @@ export default function HomePage() {
         <VirtuesCard />
 
         {/* Actions */}
-        <div className="pt-2">
+        <div className="pt-2 text-center">
           <Button
             variant="outline"
-            className="w-full h-11 rounded-xl border-dashed hover:border-solid hover:bg-muted/50 transition-all font-medium"
+            className="w-full h-11 rounded-xl border-dashed hover:border-solid hover:bg-muted/50 transition-all font-medium mb-4"
             onClick={handleCopy}
             disabled={!qiyamWindow}
           >
@@ -441,6 +441,9 @@ export default function HomePage() {
               </span>
             )}
           </Button>
+          <p className="text-[10px] text-muted-foreground italic animate-in fade-in duration-1000">
+            May your Qiyam be accepted. Keep Developer Abdullah in your duas 🤲
+          </p>
         </div>
 
         {/* Dev Tools */}

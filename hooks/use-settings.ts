@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { QiyamSettings } from '@/types'
+import mixpanel from 'mixpanel-browser'
 
 const STORAGE_KEY = 'qiyam-settings'
 
@@ -51,6 +52,19 @@ export function useSettings() {
 
   // Update settings
   const updateSettings = useCallback((updates: Partial<QiyamSettings>) => {
+    if (updates.methodId) {
+      mixpanel.track('Conversion', {
+        'Conversion Type': 'Method Change',
+        'method_id': updates.methodId
+      });
+    }
+    if (updates.convention) {
+      mixpanel.track('Conversion', {
+        'Conversion Type': 'Convention Change',
+        'convention': updates.convention
+      });
+    }
+
     setSettings((prev) => {
       const updated = { ...prev, ...updates }
       saveSettings(updated)

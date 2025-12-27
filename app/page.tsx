@@ -28,6 +28,7 @@ import { useSettings } from '@/hooks/use-settings'
 import { formatTime, calculateQiyamWindow, formatDuration, getVirtue } from '@/lib/qiyam'
 import { fetchAddressFromCoords } from '@/lib/aladhan'
 import { searchCities, type CityResult } from '@/lib/geocoding'
+import mixpanel from 'mixpanel-browser'
 
 type LocationMode = 'gps' | 'search'
 
@@ -61,6 +62,17 @@ export default function HomePage() {
     convention: settings.convention,
   })
 
+  // Track prayer error
+  useEffect(() => {
+    if (prayerError) {
+      mixpanel.track('Error', {
+        error_type: 'prayer_fetch',
+        error_message: prayerError.message,
+        page_url: window.location.href,
+      })
+    }
+  }, [prayerError])
+
   // Handle GPS location
   const handleUseGPS = useCallback(() => {
     if (!navigator.geolocation) {
@@ -72,6 +84,12 @@ export default function HomePage() {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords
+        mixpanel.track('Conversion', {
+          'Conversion Type': 'GPS Location Used',
+          lat: latitude,
+          lng: longitude
+        });
+
         updateSettings({
           location: { lat: latitude, lng: longitude },
           error: undefined
@@ -87,6 +105,11 @@ export default function HomePage() {
         }
       },
       (error) => {
+        mixpanel.track('Error', {
+          error_type: 'geolocation',
+          error_message: error.message,
+          page_url: window.location.href,
+        })
         updateSettings({ error: 'Unable to retrieve your location. Check permissions.' })
         setLocationMode('gps')
       }
@@ -118,6 +141,12 @@ export default function HomePage() {
   }
 
   const selectCity = useCallback((city: CityResult) => {
+    mixpanel.track('Search', {
+      search_query: city.name,
+      results_count: recommendations.length,
+      page_url: window.location.href,
+    })
+
     updateSettings({
       location: { lat: city.latitude, lng: city.longitude },
       error: undefined
@@ -126,7 +155,7 @@ export default function HomePage() {
     setSearchQuery(city.name)
     setShowRecommendations(false)
     setLocationMode('search')
-  }, [updateSettings])
+  }, [updateSettings, recommendations.length])
 
   // Initial address fetch if valid coords and empty address
   useEffect(() => {
@@ -157,6 +186,11 @@ export default function HomePage() {
   // Copy to clipboard
   const handleCopy = useCallback(() => {
     if (!qiyamWindow) return
+
+    mixpanel.track('Conversion', {
+      'Conversion Type': 'Copy Summary',
+      page_url: window.location.href,
+    })
 
     const text = `Qiyam Window${address ? ` for ${address}` : ''}:\n` +
       `• Starts: ${formatTime(qiyamWindow.start, timeFormat)}\n` +

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { DM_Sans } from 'next/font/google'
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import { QueryProvider } from '@/components/providers/query-provider'
+import { AnalyticsProvider } from '@/components/providers/analytics-provider'
 import './globals.css'
 
 const dmSans = DM_Sans({
@@ -31,9 +32,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryProvider>
-            <main className="min-h-screen bg-background">
-              {children}
-            </main>
+            <AnalyticsProvider>
+              <main className="min-h-screen bg-background">
+                {children}
+              </main>
+            </AnalyticsProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>

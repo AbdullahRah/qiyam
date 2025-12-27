@@ -52,5 +52,5 @@ A premium, glassy web application designed to calculate the **Last Third of the 
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
----
+
 *May your Qiyam be accepted.* Keep Developer Abdullah Rahman in your duas🤲

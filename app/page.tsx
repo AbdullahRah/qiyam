@@ -446,12 +446,6 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Dev Tools */}
-        <DevToolsAccordion
-          qiyamWindow={qiyamWindow}
-          prayerTimes={prayerTimes}
-          settings={settings}
-        />
       </div>
     </div>
   )
@@ -572,32 +566,6 @@ function SettingsDialog({
   )
 }
 
-function DevToolsAccordion({
-  qiyamWindow,
-  prayerTimes,
-  settings,
-}: {
-  qiyamWindow: ReturnType<typeof calculateQiyamWindow> | null
-  prayerTimes: ReturnType<typeof usePrayerTimes>['data'] | null
-  settings: ReturnType<typeof useSettings>['settings']
-}) {
-  return (
-    <details className="group">
-      <summary className="list-none cursor-pointer text-center text-[10px] text-muted-foreground/50 hover:text-muted-foreground transition-colors mt-8">
-        Ref: {settings.location.lat.toFixed(2)}, {settings.location.lng.toFixed(2)} | M{settings.methodId}
-      </summary>
-      <div className="mt-2 p-3 rounded-lg bg-muted/50 text-[10px] space-y-1 font-mono text-left">
-        {qiyamWindow && (
-          <>
-            <p>Start: {qiyamWindow.start.toISOString()}</p>
-            <p>End: {qiyamWindow.end.toISOString()}</p>
-          </>
-        )}
-        <p>Method ID: {settings.methodId}</p>
-      </div>
-    </details>
-  )
-}
 function Countdown({ targetDate, endDate }: { targetDate: Date, endDate: Date }) {
   const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number } | null>(null)
   const [isPast, setIsPast] = useState(false)

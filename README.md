@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="public/logo.jpg" alt="Qiyam Logo" width="200" />
-</p>
-
 # Qiyam 🌙
 
 A premium, glassy web application designed to calculate the **Last Third of the Night (Qiyam/Tahajjud)** with precision. Built for spiritual focus and clarity, Qiyam takes the guesswork out of night prayer by providing real-time countdowns, visual progress, and inspirational virtues.
